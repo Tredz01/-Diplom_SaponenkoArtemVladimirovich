@@ -1,4 +1,5 @@
 from tkinter import Widget
+from typing import Required
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -16,7 +17,8 @@ class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': 'input-register form-control',
-            'placeholder': 'Введите email'
+            'placeholder': 'Введите email',
+            'autofocus': True
         }),
         label='логин (Email)'
     )
@@ -50,7 +52,6 @@ class RegistrationForm(UserCreationForm):
     
     phone = forms.CharField(
         max_length=18,
-        required=False,
         widget=forms.TextInput(attrs={
             'class': 'input-register form-control',
             'placeholder': '+7 (999) 999-99-99'
@@ -61,7 +62,6 @@ class RegistrationForm(UserCreationForm):
 
     desired_group = forms.CharField(
         max_length=50,
-        required=False,
         widget=forms.TextInput(attrs={
             'class': 'input-register form-controll',
             'placeholder': 'название группы'
@@ -82,30 +82,25 @@ class RegistrationForm(UserCreationForm):
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         if phone:
-            # Проверяем формат телефона
             phone_pattern = r'^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$'
             if not re.match(phone_pattern, phone):
-                raise ValidationError('Неверный формат номера телефона.')
-            
-            # Проверяем уникальность телефона (если он указан)
+                raise ValidationError('неверный формат номера телефона.')
             if CustomUser.objects.filter(phone=phone).exists():
-                raise ValidationError('Пользователь с таким номером телефона уже существует.')
+                raise ValidationError('пользователь с таким номером телефона уже существует.')
         
         return phone
     
     def clean_FIO(self):
-        fio = self.cleaned_data.get('FIO')
-        if fio:
-            # Проверяем, что ФИО содержит минимум 2 слова
-            words = fio.strip().split()
+        FIO = self.cleaned_data.get('FIO')
+        if FIO:
+            words = FIO.strip().split()
             if len(words) < 2:
                 raise ValidationError('ФИО должно содержать минимум имя и фамилию.')
-        return fio
+        return FIO
     
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
-        
         if commit:
             user.save()
         return user
@@ -147,7 +142,7 @@ class LoginForm(AuthenticationForm):
             )
             if self.user_cache is None:
                 raise ValidationError(
-                    'Неверный email или пароль.',
+                    'неверная почта или пароль.',
                     code='invalid_login'
                 )
             else:

@@ -1,0 +1,54 @@
+{% extends 'users/base.html' %}
+
+{% block title %}регистрация{% endblock %}
+
+{% block content %}
+    <h1>регистрация аккаунта</h1>
+    <form method="post" class="reg-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">почта</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">пароль</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="error">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">повтор пароля</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="error">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.FIO.id_for_label }}">ФИО</label>
+            {{ form.FIO }}
+            {% if form.FIO.errors %}
+                <div class="error">{{ form.FIO.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.phone.id_for_label }}">телефон</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="error">{{ form.phone.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.desired_group.id_for_label }}">введите название группы для вступления</label>
+            {{ form.desired_group }}
+            {% if form.desired_group.errors %}
+                <div class="error">{{ form.desired_group.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit">зарегистрироваться</button>
+        <a href="{% url 'users:login_view' %}" class="link">Уже зарегистрированы? Войти</a>
+    </form>
+{% endblock %}
