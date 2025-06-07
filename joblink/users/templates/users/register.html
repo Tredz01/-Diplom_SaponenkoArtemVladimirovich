@@ -1,54 +1,455 @@
 {% extends 'users/base.html' %}
-
-{% block title %}регистрация{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block content %}
-    <h1>регистрация аккаунта</h1>
-    <form method="post" class="reg-form">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">почта</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="error">{{ form.email.errors }}</div>
-            {% endif %}
+<div class="register-container">
+    <div class="register-card">
+        <!-- Логотип -->
+        <div class="logo-section">
+            {% block content %}
+    <!-- Логотип загружается здесь -->
+    <img src="{% static 'images/logo1.png' %}" alt="Логотип" class="my-logo">
+    
+    <!-- Остальное содержимое страницы -->
+{% endblock %}
         </div>
-        <div class="form-group">
-            <label for="{{ form.password1.id_for_label }}">пароль</label>
-            {{ form.password1 }}
-            {% if form.password1.errors %}
-                <div class="error">{{ form.password1.errors }}</div>
+        
+        <!-- Заголовок -->
+        <h1 class="register-title">регистрация на сайте</h1>
+        
+        <!-- Форма -->
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            <!-- Поле логина (email) -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="form-label">введите логин</label>
+                <div class="input-wrapper">
+                    {{ form.email }}
+                    <i class="input-icon user-icon"></i>
+                </div>
+                {% if form.email.errors %}
+                    <div class="error-message">
+                        {% for error in form.email.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле пароля -->
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">введите пароль</label>
+                <div class="input-wrapper">
+                    {{ form.password1 }}
+                    <button type="button" class="password-toggle" data-target="password1" aria-label="Показать пароль">
+                        <i class="eye-icon eye-closed"></i>
+                    </button>
+                </div>
+                {% if form.password1.errors %}
+                    <div class="error-message">
+                        {% for error in form.password1.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле повтора пароля -->
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">повторите пароль</label>
+                <div class="input-wrapper">
+                    {{ form.password2 }}
+                    <button type="button" class="password-toggle" data-target="password2" aria-label="Показать пароль">
+                        <i class="eye-icon eye-closed"></i>
+                    </button>
+                </div>
+                {% if form.password2.errors %}
+                    <div class="error-message">
+                        {% for error in form.password2.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле ФИО -->
+            <div class="form-group">
+                <label for="{{ form.FIO.id_for_label }}" class="form-label">введите фио</label>
+                <div class="input-wrapper">
+                    {{ form.FIO }}
+                    <i class="input-icon person-icon"></i>
+                </div>
+                {% if form.FIO.errors %}
+                    <div class="error-message">
+                        {% for error in form.FIO.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле телефона -->
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}" class="form-label">введите телефон</label>
+                <div class="input-wrapper">
+                    {{ form.phone }}
+                    <i class="input-icon phone-icon"></i>
+                </div>
+                {% if form.phone.errors %}
+                    <div class="error-message">
+                        {% for error in form.phone.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле группы -->
+            <div class="form-group">
+                <label for="{{ form.desired_group.id_for_label }}" class="form-label">введите группу</label>
+                <div class="input-wrapper">
+                    {{ form.desired_group }}
+                    <i class="input-icon group-icon"></i>
+                </div>
+                {% if form.desired_group.errors %}
+                    <div class="error-message">
+                        {% for error in form.desired_group.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Общие ошибки формы -->
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.password2.id_for_label }}">повтор пароля</label>
-            {{ form.password2 }}
-            {% if form.password2.errors %}
-                <div class="error">{{ form.password2.errors }}</div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.FIO.id_for_label }}">ФИО</label>
-            {{ form.FIO }}
-            {% if form.FIO.errors %}
-                <div class="error">{{ form.FIO.errors }}</div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.phone.id_for_label }}">телефон</label>
-            {{ form.phone }}
-            {% if form.phone.errors %}
-                <div class="error">{{ form.phone.errors }}</div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.desired_group.id_for_label }}">введите название группы для вступления</label>
-            {{ form.desired_group }}
-            {% if form.desired_group.errors %}
-                <div class="error">{{ form.desired_group.errors }}</div>
-            {% endif %}
-        </div>
-        <button type="submit">зарегистрироваться</button>
-        <a href="{% url 'users:login_view' %}" class="link">Уже зарегистрированы? Войти</a>
-    </form>
+            
+            <!-- Ссылка на вход -->
+            <div class="form-links">
+                <a href="{% url 'users:login_view' %}" class="login-link">Уже зарегистрированы? Войти</a>
+            </div>
+            
+            <!-- Кнопка регистрации -->
+            <button type="submit" class="register-button">зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Основные стили для страницы регистрации */
+.register-container {
+    min-height: 100vh;
+    background-color: #F5F3E7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.register-card {
+    background-color: #D4F4DD;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* Заголовок */
+.register-title {
+    color: #8B9A8B;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-transform: lowercase;
+}
+
+/* Форма */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    color: #8B9A8B;
+    font-size: 14px;
+    margin-bottom: 6px;
+    text-transform: lowercase;
+}
+
+/* Поля ввода */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-wrapper input:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2px rgba(139, 154, 139, 0.3);
+}
+
+.input-wrapper input::placeholder {
+    color: #B0B0B0;
+}
+
+/* Иконки в полях */
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+}
+
+.user-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+.lock-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z'/%3E%3C/svg%3E");
+}
+
+.person-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+.email-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E");
+}
+
+.phone-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'/%3E%3C/svg%3E");
+}
+
+.group-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'/%3E%3C/svg%3E");
+}
+
+/* Примечание к полю */
+.form-note {
+    color: #8B9A8B;
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: left;
+    font-style: italic;
+}
+
+/* Ссылки */
+.form-links {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.login-link {
+    color: #8B9A8B;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #6B8A6B;
+    text-decoration: underline;
+}
+
+/* Кнопка регистрации */
+.register-button {
+    background-color: #90EE90;
+    color: #4A5D4A;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    text-transform: lowercase;
+}
+
+.register-button:hover {
+    background-color: #7FDD7F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(144, 238, 144, 0.4);
+}
+
+.register-button:active {
+    transform: translateY(0);
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #E74C3C;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .register-card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .register-title {
+        font-size: 16px;
+    }
+    
+    .input-wrapper input {
+        padding: 10px 35px 10px 10px;
+        font-size: 14px;
+    }
+    
+    .register-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Скрытие стандартных стилей Django */
+.register-form input[type="email"],
+.register-form input[type="password"],
+.register-form input[type="text"] {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.register-form input[type="email"]:focus,
+.register-form input[type="password"]:focus,
+.register-form input[type="text"]:focus {
+    border: none !important;
+    box-shadow: 0 0 0 2px rgba(139, 154, 139, 0.3) !important;
+}
+
+/* Кнопка просмотра пароля */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.input-wrapper .password-toggle + .input-icon {
+    right: 45px;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.eye-closed {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 6c3.79 0 7.17 2.13 8.82 5.5-.59 1.22-1.42 2.27-2.41 3.12l1.41 1.41c1.39-1.23 2.49-2.77 3.18-4.53-1.73-4.39-6-7.5-11-7.5-1.27 0-2.49.2-3.64.57l1.65 1.65C10.66 6.09 11.32 6 12 6zm-1.07 1.14L13 9.21c.57.25 1.03.71 1.28 1.28l2.07 2.07c.08-.34.14-.7.14-1.07C16.5 9.01 14.48 7 12 7c-.37 0-.72.05-1.07.14zM2.01 3.87l2.68 2.68C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.98-.29 4.32-.82l3.42 3.42 1.41-1.41L3.42 2.45 2.01 3.87zm7.5 7.5l2.61 2.61c-.04.01-.08.02-.12.02-1.38 0-2.5-1.12-2.5-2.5 0-.05.01-.08.01-.13zm-3.4-3.4l1.75 1.75c-.23.55-.36 1.15-.36 1.78 0 2.48 2.02 4.5 4.5 4.5.63 0 1.23-.13 1.77-.36l.98.98c-.88.24-1.8.38-2.75.38-3.79 0-7.17-2.13-8.82-5.5.7-1.43 1.72-2.61 2.93-3.53z'/%3E%3C/svg%3E");
+}
+
+.eye-open {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z'/%3E%3C/svg%3E");
+}
+/* Скрипт для синхронизации полей email */
+</style>
+
+<script>
+// Синхронизация полей email (если используется отдельное поле для отображения)
+document.addEventListener('DOMContentLoaded', function() {
+    const emailDisplayField = document.getElementById('id_email_display');
+    const emailField = document.getElementById('{{ form.email.id_for_label }}');
+    
+    if (emailDisplayField && emailField) {
+        // Синхронизация при загрузке
+        emailDisplayField.value = emailField.value;
+        
+        // Синхронизация при вводе
+        emailDisplayField.addEventListener('input', function() {
+            emailField.value = this.value;
+        });
+        
+        emailField.addEventListener('input', function() {
+            emailDisplayField.value = this.value;
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для переключения видимости пароля
+    const setupPasswordToggle = (passwordField, toggleButton) => {
+        if (!passwordField || !toggleButton) return;
+        
+        const eyeIcon = toggleButton.querySelector('.eye-icon');
+        
+        toggleButton.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Переключение иконки
+            if (type === 'text') {
+                eyeIcon.classList.remove('eye-closed');
+                eyeIcon.classList.add('eye-open');
+            } else {
+                eyeIcon.classList.remove('eye-open');
+                eyeIcon.classList.add('eye-closed');
+            }
+        });
+    };
+    
+    // Настройка переключателей для полей пароля
+    const passwordField1 = document.getElementById('{{ form.password1.id_for_label }}');
+    const toggleButton1 = document.querySelector('.password-toggle[data-target="password1"]');
+    setupPasswordToggle(passwordField1, toggleButton1);
+    
+    const passwordField2 = document.getElementById('{{ form.password2.id_for_label }}');
+    const toggleButton2 = document.querySelector('.password-toggle[data-target="password2"]');
+    setupPasswordToggle(passwordField2, toggleButton2);
+});
+</script>
 {% endblock %}

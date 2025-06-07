@@ -3,12 +3,17 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, FIO, password=None, phone=None, desired_group=None, role=None, **extra_fields):
-        """Создание обычного пользователя"""
+    def create_user(self, email, FIO, password, phone, desired_group, role=None, **extra_fields):
         if not email:
-            raise ValueError('Поле почты должно быть заполнено')
+            raise ValueError('поле почты должно быть заполнено')
         if not FIO:
-            raise ValueError('Поле ФИО должно быть заполнено')
+            raise ValueError('поле ФИО должно быть заполнено')
+        if not password:
+            raise ValueError('поде ввода пороля должно быть заполнено')
+        if not phone:
+            raise ValueError('поде телефона должно быть заполнено')
+        if not desired_group:
+            raise ValueError('поде группы должно быть заполнено')
         
         email = self.normalize_email(email)
         user = self.model(
@@ -17,7 +22,7 @@ class CustomUserManager(BaseUserManager):
             phone=phone or '',
             desired_group=desired_group or '',
             role=role or UserRole.STUDENT,
-            **extra_fields  # Добавляем поддержку дополнительных полей
+            **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)

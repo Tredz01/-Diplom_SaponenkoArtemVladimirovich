@@ -1,37 +1,339 @@
 {% extends 'users/base.html' %}
 
-{% block title %}вход{% endblock %}
+{% block title %}Вход{% endblock %}
 
 {% block content %}
-    <h1>вход</h1>
-    <form method="post" class="reg-form">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">почта:</label>
-            {{ form.username }}
-            {% if form.username.errors %}
-                <div class="error">{{ form.username.errors }}</div>
-            {% endif %}
+<div class="login-container">
+    <div class="login-card">
+        <!-- Логотип -->
+        <div class="logo-section">
+            <img src="/placeholder.svg?height=80&width=80" alt="Логотип" class="logo">
         </div>
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">пароль:</label>
-            {{ form.password }}
-            {% if form.password.errors %}
-                <div class="error">{{ form.password.errors }}</div>
+        
+        <!-- Заголовок -->
+        <h1 class="login-title">вход на сайт</h1>
+        
+        <!-- Форма -->
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            
+            <!-- Поле логина -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">введите логин</label>
+                <div class="input-wrapper">
+                    {{ form.username }}
+                    <i class="input-icon user-icon"></i>
+                </div>
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {% for error in form.username.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Поле пароля -->
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="form-label">введите пароль</label>
+                <div class="input-wrapper">
+                    {{ form.password }}
+                    <button type="button" class="password-toggle" aria-label="Показать пароль">
+                        <i class="eye-icon eye-closed"></i>
+                    </button>
+                </div>
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {% for error in form.password.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Общие ошибки формы -->
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
             {% endif %}
-            {% if form.password.errors %}
-                <div class="error">{{ form.password.errors }}</div>
-            {% endif %}
+            
+            <!-- Ссылки -->
+            <div class="form-links">
+                <a href="#" class="forgot-password">Забыли пароль?</a>
+                <a href="{% url 'users:register' %}" class="register-link">Зарегистрироваться</a>
+            </div>
+            
+            <!-- Кнопка входа -->
+            <button type="submit" class="login-button">войти</button>
+        </form>
+    </div>
+</div>
 
-        </div>
-        {% if form.errors %}
-            {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
-        <button type="submit">войти</button>
-        <a href="{% url 'users:register' %}" class="link">зарегистрироваться</a>
-    </form>
+<style>
+/* Основные стили для страницы входа */
+.login-container {
+    min-height: 100vh;
+    background-color: #F5F3E7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.login-card {
+    background-color: #D4F4DD;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Заголовок */
+.login-title {
+    color: #8B9A8B;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 40px;
+    text-transform: lowercase;
+}
+
+/* Форма */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    color: #8B9A8B;
+    font-size: 14px;
+    margin-bottom: 8px;
+    text-transform: lowercase;
+}
+
+/* Поля ввода */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 15px 45px 15px 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-wrapper input:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2px rgba(139, 154, 139, 0.3);
+}
+
+.input-wrapper input::placeholder {
+    color: #B0B0B0;
+}
+
+/* Иконки в полях */
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+}
+
+.user-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+.lock-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z'/%3E%3C/svg%3E");
+}
+
+/* Ссылки */
+.form-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.forgot-password,
+.register-link {
+    color: #8B9A8B;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover,
+.register-link:hover {
+    color: #6B8A6B;
+    text-decoration: underline;
+}
+
+/* Кнопка входа */
+.login-button {
+    background-color: #90EE90;
+    color: #4A5D4A;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    text-transform: lowercase;
+}
+
+.login-button:hover {
+    background-color: #7FDD7F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(144, 238, 144, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #E74C3C;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .login-title {
+        font-size: 16px;
+    }
+    
+    .input-wrapper input {
+        padding: 12px 40px 12px 12px;
+        font-size: 14px;
+    }
+    
+    .login-button {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+}
+
+/* Скрытие стандартных стилей Django */
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+    border: none !important;
+    box-shadow: 0 0 0 2px rgba(139, 154, 139, 0.3) !important;
+}
+
+/* Кнопка просмотра пароля */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.input-wrapper .password-toggle + .input-icon {
+    right: 45px;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.eye-closed {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 6c3.79 0 7.17 2.13 8.82 5.5-.59 1.22-1.42 2.27-2.41 3.12l1.41 1.41c1.39-1.23 2.49-2.77 3.18-4.53-1.73-4.39-6-7.5-11-7.5-1.27 0-2.49.2-3.64.57l1.65 1.65C10.66 6.09 11.32 6 12 6zm-1.07 1.14L13 9.21c.57.25 1.03.71 1.28 1.28l2.07 2.07c.08-.34.14-.7.14-1.07C16.5 9.01 14.48 7 12 7c-.37 0-.72.05-1.07.14zM2.01 3.87l2.68 2.68C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.98-.29 4.32-.82l3.42 3.42 1.41-1.41L3.42 2.45 2.01 3.87zm7.5 7.5l2.61 2.61c-.04.01-.08.02-.12.02-1.38 0-2.5-1.12-2.5-2.5 0-.05.01-.08.01-.13zm-3.4-3.4l1.75 1.75c-.23.55-.36 1.15-.36 1.78 0 2.48 2.02 4.5 4.5 4.5.63 0 1.23-.13 1.77-.36l.98.98c-.88.24-1.8.38-2.75.38-3.79 0-7.17-2.13-8.82-5.5.7-1.43 1.72-2.61 2.93-3.53z'/%3E%3C/svg%3E");
+}
+
+.eye-open {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z'/%3E%3C/svg%3E");
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для переключения видимости пароля
+    const setupPasswordToggle = (passwordField, toggleButton) => {
+        if (!passwordField || !toggleButton) return;
+        
+        const eyeIcon = toggleButton.querySelector('.eye-icon');
+        
+        toggleButton.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Переключение иконки
+            if (type === 'text') {
+                eyeIcon.classList.remove('eye-closed');
+                eyeIcon.classList.add('eye-open');
+            } else {
+                eyeIcon.classList.remove('eye-open');
+                eyeIcon.classList.add('eye-closed');
+            }
+        });
+    };
+    
+    // Настройка переключателя для поля пароля
+    const passwordField = document.querySelector('input[type="password"]');
+    const toggleButton = document.querySelector('.password-toggle');
+    setupPasswordToggle(passwordField, toggleButton);
+});
+</script>
 {% endblock %}
