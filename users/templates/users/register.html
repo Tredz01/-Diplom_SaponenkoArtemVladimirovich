@@ -6,22 +6,11 @@
     <div class="register-card">
         <!-- Логотип -->
         <div class="logo-section">
-            {% block content %}
-    <!-- Логотип загружается здесь -->
-    <img src="{% static 'images/logo1.png' %}" alt="Логотип" class="my-logo">
-    
-    <!-- Остальное содержимое страницы -->
-{% endblock %}
+
         </div>
-        
-        <!-- Заголовок -->
         <h1 class="register-title">регистрация на сайте</h1>
-        
-        <!-- Форма -->
         <form method="post" class="register-form">
             {% csrf_token %}
-            
-            <!-- Поле логина (email) -->
             <div class="form-group">
                 <label for="{{ form.email.id_for_label }}" class="form-label">введите логин</label>
                 <div class="input-wrapper">
@@ -36,8 +25,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Поле пароля -->
             <div class="form-group">
                 <label for="{{ form.password1.id_for_label }}" class="form-label">введите пароль</label>
                 <div class="input-wrapper">
@@ -54,8 +41,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Поле повтора пароля -->
             <div class="form-group">
                 <label for="{{ form.password2.id_for_label }}" class="form-label">повторите пароль</label>
                 <div class="input-wrapper">
@@ -72,8 +57,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Поле ФИО -->
             <div class="form-group">
                 <label for="{{ form.FIO.id_for_label }}" class="form-label">введите фио</label>
                 <div class="input-wrapper">
@@ -88,8 +71,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Поле телефона -->
             <div class="form-group">
                 <label for="{{ form.phone.id_for_label }}" class="form-label">введите телефон</label>
                 <div class="input-wrapper">
@@ -104,8 +85,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Поле группы -->
             <div class="form-group">
                 <label for="{{ form.desired_group.id_for_label }}" class="form-label">введите группу</label>
                 <div class="input-wrapper">
@@ -120,8 +99,6 @@
                     </div>
                 {% endif %}
             </div>
-            
-            <!-- Общие ошибки формы -->
             {% if form.non_field_errors %}
                 <div class="error-message">
                     {% for error in form.non_field_errors %}
@@ -129,20 +106,16 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            
-            <!-- Ссылка на вход -->
             <div class="form-links">
                 <a href="{% url 'users:login_view' %}" class="login-link">Уже зарегистрированы? Войти</a>
             </div>
-            
-            <!-- Кнопка регистрации -->
             <button type="submit" class="register-button">зарегистрироваться</button>
         </form>
     </div>
 </div>
 
 <style>
-/* Основные стили для страницы регистрации */
+
 .register-container {
     min-height: 100vh;
     background-color: #F5F3E7;
@@ -163,10 +136,6 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-
-
-
-/* Заголовок */
 .register-title {
     color: #8B9A8B;
     font-size: 18px;
@@ -175,7 +144,7 @@
     text-transform: lowercase;
 }
 
-/* Форма */
+
 .register-form {
     display: flex;
     flex-direction: column;
@@ -194,7 +163,7 @@
     text-transform: lowercase;
 }
 
-/* Поля ввода */
+
 .input-wrapper {
     position: relative;
 }
@@ -220,7 +189,7 @@
     color: #B0B0B0;
 }
 
-/* Иконки в полях */
+
 .input-icon {
     position: absolute;
     right: 15px;
