@@ -62,7 +62,7 @@
             
             <!-- Ссылки -->
             <div class="form-links">
-                <a href="#" class="forgot-password">Забыли пароль?</a>
+                <a href="{% url 'users:password_reset_request' %}" class="forgot-password">Забыли пароль?</a>
                 <a href="{% url 'users:register' %}" class="register-link">Зарегистрироваться</a>
             </div>
             

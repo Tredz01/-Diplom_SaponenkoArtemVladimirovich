@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from tkinter import Widget
 from typing import Required
 from django import forms
@@ -149,3 +150,29 @@ class LoginForm(AuthenticationForm):
                 self.confirm_login_allowed(self.user_cache)
         
         return self.cleaned_data
+    
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField( 
+        label="Email",
+        max_length=50,
+        widget=forms.EmailInput(attrs={'class': 'input-register form-control', 'placeholder': 'ваша почта'})
+    )
+
+class PasswordResetConfimForm(forms.Form):
+    new_password1 = forms.CharField(
+        label="новый пароль",
+        widget=forms.PasswordInput(attrs={'class': 'input-register form-control', 'placeholder': 'новый пароль'})
+    )
+    new_password2 = forms.CharField(
+        label="подтвердите новый пароль",
+        widget=forms.PasswordInput(attrs={'class': 'input-register form-control', 'placeholder': 'новый пароль'})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError("пароли не совпадают")
+        return cleaned_data
